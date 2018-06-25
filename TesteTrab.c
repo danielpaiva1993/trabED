@@ -63,7 +63,7 @@ void altera_faixas(TDISCO* a, char* chave, int faixas){
 	achado->nfaixas = faixas;
 }
 
-void altera_album(TDISCO* a, char* chave, int min){
+void altera_minutos(TDISCO* a, char* chave, int min){
 	TDISCO* achado = busca(a, chave);
 	if(!achado) return;
 
