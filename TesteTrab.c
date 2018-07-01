@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define T 3      // 1 < nc < 5
+#define T 3      // 2 < nc < 5
 
 typedef struct arvm{
 	int nchaves, folha;
@@ -26,7 +26,9 @@ TDISCO* busca(TDISCO* a, char *chave){
 
 	while((i < a->nchaves) && strcmp(chave, a->chaves[i]) > 0) i++;
 
-	if((i < a->nchaves) && strcmp(chave, a->chaves[i]) == 0) return a;
+	if((i < a->nchaves) && strcmp(chave, a->chaves[i]) == 0 && a->folha) return a;
+
+	if((i < a->nchaves) && strcmp(chave, a->chaves[i]) == 0 && !a->folha) return busca(a->filho[i+1], chave);
 
 	return busca(a->filho[i], chave);
 }
@@ -152,6 +154,13 @@ int busca_minutos(TDISCO* a, char *chave){
 	return achado->minutos;
 }
 
+void busca_infos(TDISCO* a, char* chave){
+	TDISCO* achado = busca(a, chave);
+	if(!achado) return;
+
+	printf("%s %d %d\n", achado->album, achado->nfaixas, achado->minutos);
+}
+
 void altera_album(TDISCO* a, char* chave, char* nome){
 	TDISCO* achado = busca(a, chave);
 	if(!achado) return;
@@ -171,6 +180,10 @@ void altera_minutos(TDISCO* a, char* chave, int min){
 	if(!achado) return;
 
 	achado->minutos = min;
+}
+
+TDISCO* busca_obras(TDISCO* a, char* nome){
+
 }
 
 
