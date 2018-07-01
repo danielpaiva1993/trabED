@@ -15,6 +15,7 @@ typedef struct arvm{
 	struct arvm **filho, *antirmao, *proxirmao;
 }TDISCO;
 
+
 //=====================================Funções Auxiliares====================================
 
 TDISCO* busca(TDISCO* a, char *chave){
@@ -182,7 +183,28 @@ void altera_minutos(TDISCO* a, char* chave, int min){
 	achado->minutos = min;
 }
 
-TDISCO* busca_obras(TDISCO* a, char* nome){
+
+TDISCO* busca_obras(TDISCO* a, char* nome){ //retorna NULL se não achar nenhuma obra
+	if(!a) return NULL;                     //retorna o primeiro nó que o artista aparece se achar
+
+	TDISCO* aux = a;
+
+	while(!aux->folha) aux = aux->filho[0];
+
+	
+	while(aux != NULL){
+		int i = 0;
+
+		while((i < aux->nchaves) && strcmp(nome, strtok(aux->chaves[i], "/")) > 0) i++;
+
+		if((i < aux->nchaves) && strcmp(nome, strtok(aux->chaves[i], "/")) < 0) return NULL;
+		
+		if((i < aux->nchaves) && strcmp(nome, strtok(aux->chaves[i], "/")) == 0) return aux;
+
+		if(i >= aux->nchaves) aux = aux->proxirmao;
+	}
+
+	return aux;
 
 }
 
